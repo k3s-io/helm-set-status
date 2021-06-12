@@ -2,10 +2,11 @@
 
 set -e
 
-plugin_version=$(sed -n -e 's/version:[ "]*\([^"]*\).*/\1/p' $(dirname $0)/plugin.yaml)
+plugin_version=$(sed -n -e 's/version:[ "]*\([^"]*\).*/\1/p' $(dirname $0)/../plugin.yaml)
 SET_STATUS_VERSION=${SET_STATUS_VERSION:-$plugin_version}
+env
 
-dir=${HELM_PLUGIN_DIR:-"$(helm home)/plugins/helm-set-status"}
+dir=${HELM_PLUGINS:-${HOME}/.local/share/helm/plugins/helm-set-status}
 os=$(uname -sp | tr '[:upper:] ' '[:lower:]-' | sed 's/x86_64/amd64/')
 release_file="helm-set-status-${SET_STATUS_VERSION}-${os}.tar.gz"
 url="https://github.com/brandond/helm-set-status/releases/download/v${SET_STATUS_VERSION}/${release_file}"
