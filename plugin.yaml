@@ -1,0 +1,10 @@
+---
+name: "set-status"
+version: "0.1.0"
+usage: "helm set-status <RELEASE_NAME>"
+description: |-
+  Manually set the status of a helm release
+ignoreFlags: false
+command: "$HELM_PLUGIN_DIR/helm-set-status"
+hooks:
+  install: "cd $HELM_PLUGIN_DIR; scripts/install_plugin.sh"
