@@ -18,5 +18,5 @@ helm plugin install https://github.com/brandond/helm-set-status
 ## Usage
 
 ```console
-helm set-status release failed --namespace ns --force
+helm set-status RELEASE STATUS [flags]
 ```
