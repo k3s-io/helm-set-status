@@ -7,7 +7,7 @@ Useful when helm or your cluster ran into problems mid-update and things are stu
 
 | :warning: WARNING :warning: |
 | - |
-| This plugin alters the internal state of helm releases. Ensure that you know the impact that manually setting the state of a helm release may have before using this plugin. |
+| This plugin alters the internal state of helm releases. Use with care! |
 
 ## Install
 
