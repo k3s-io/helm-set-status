@@ -12,7 +12,7 @@ Useful when helm or your cluster ran into problems mid-update and things are stu
 ## Install
 
 ```console
-helm plugin install https://github.com/brandond/helm-set-status
+helm plugin install https://github.com/k3s-io/helm-set-status
 ```
 
 ## Usage

@@ -6,8 +6,8 @@ import (
 	"log"
 	"os"
 
-	"github.com/brandond/helm-set-status/pkg/common"
-	"github.com/brandond/helm-set-status/pkg/status"
+	"github.com/k3s-io/helm-set-status/pkg/common"
+	"github.com/k3s-io/helm-set-status/pkg/status"
 	"github.com/spf13/cobra"
 )
 

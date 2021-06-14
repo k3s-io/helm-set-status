@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/brandond/helm-set-status/pkg/common"
+	"github.com/k3s-io/helm-set-status/pkg/common"
 	"helm.sh/helm/v3/pkg/action"
 	"helm.sh/helm/v3/pkg/cli"
 )

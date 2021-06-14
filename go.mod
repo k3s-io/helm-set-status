@@ -1,4 +1,4 @@
-module github.com/brandond/helm-set-status
+module github.com/k3s-io/helm-set-status
 
 go 1.16
 
