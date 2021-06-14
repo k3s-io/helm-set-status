@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"io"
-	"log"
 	"os"
 
 	"github.com/k3s-io/helm-set-status/pkg/common"
@@ -73,5 +72,4 @@ func main() {
 	if err := setStatusCmd.Execute(); err != nil {
 		os.Exit(1)
 	}
-	log.Printf("release status updated")
 }

@@ -2,6 +2,7 @@ package status
 
 import (
 	"fmt"
+	"log"
 	"os"
 	"time"
 
@@ -29,6 +30,7 @@ func SetStatus(options common.RunOptions) error {
 	if err := recordRelease(latestRelease, cfg); err != nil {
 		return errors.Wrapf(err, "failed to update release %s", options.ReleaseName)
 	}
+	log.Printf("release %s status updated", options.ReleaseName)
 	return nil
 }
 
