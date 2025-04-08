@@ -1,0 +1,98 @@
+---
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: "Build & Test"
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: 'go.mod'
+
+      - name: Install dependencies
+        run: make bootstrap
+
+      - name: Run unit tests
+        run: make test
+
+      - name: Verify installation
+        run: |
+          mkdir -p helmplugindir
+          make install HELM_3_PLUGINS=helmplugindir
+          helmplugindir/helm-set-status/bin/helm-set-status version
+
+  helm-install:
+    name: helm install
+    if: "!contains(github.event.head_commit.message, '[ci skip]')"
+    needs: [build]
+    runs-on: ${{ matrix.os }}
+    container: ${{ matrix.container }}
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        shell: [ default ]
+        experimental: [ false ]
+        helm-version: [ v3.17.2, v3.16.4 ]
+        include:
+          - os: windows-latest
+            shell: wsl
+            experimental: false
+            helm-version: v3.17.2
+          - os: windows-latest
+            shell: cygwin
+            experimental: false
+            helm-version: v3.17.2
+          - os: ubuntu-latest
+            container: alpine
+            shell: sh
+            experimental: false
+            helm-version: v3.17.2
+          - os: windows-latest
+            shell: wsl
+            experimental: false
+            helm-version: v3.16.4
+          - os: windows-latest
+            shell: cygwin
+            experimental: false
+            helm-version: v3.16.4
+          - os: ubuntu-latest
+            container: alpine
+            shell: sh
+            experimental: false
+            helm-version: v3.16.4
+
+    steps:
+      - name: Disable autocrlf
+        if: "contains(matrix.os, 'windows-latest')"
+        run: |-
+          git config --global core.autocrlf false
+          git config --global core.eol lf
+
+      - uses: actions/checkout@v4
+
+      - name: Setup Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: ${{ matrix.helm-version }}
+
+      - name: Setup WSL
+        if: "contains(matrix.shell, 'wsl')"
+        uses: Vampire/setup-wsl@v5
+
+      - name: Setup Cygwin
+        if: "contains(matrix.shell, 'cygwin')"
+        uses: egor-tensin/setup-cygwin@v4
+
+      - name: helm plugin install
+        run: helm plugin install .

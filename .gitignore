@@ -1,2 +1,6 @@
 /bin
 /dist
+/build
+/cover.out
+docker-run-release-cache/
+/release

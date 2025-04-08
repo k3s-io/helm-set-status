@@ -1,0 +1,40 @@
+# To test this manually, run:
+#  go install github.com/goreleaser/goreleaser@latest
+#  goreleaser --snapshot --clean
+#  for f in dist/helm-set-status*.tgz; do echo Testing $f...; tar tzvf $f; done
+project_name: helm-set-status
+builds:
+  - id: default
+    main: ./cmd/helm-set-status
+    binary: bin/helm-set-status
+    env:
+      - CGO_ENABLED=0
+    flags:
+      - -trimpath
+    ldflags:
+      - -X main.version=${VERSION}
+    goos:
+      - freebsd
+      - darwin
+      - linux
+      - windows
+    goarch:
+      - amd64
+      - arm64
+
+archives:
+  - id: default
+    builds:
+    - default
+    format: tgz
+    name_template: '{{ .ProjectName }}-{{ if eq .Os "darwin" }}macos{{ else }}{{ .Os }}{{ end }}-{{ .Arch }}'
+    wrap_in_directory: helm-set-status
+    files:
+    - README.md
+    - plugin.yaml
+    - LICENSE
+changelog:
+  use: github-native
+
+release:
+  prerelease: auto

@@ -1,0 +1,32 @@
+FROM alpine/helm:2.16.9
+
+ADD . /workspace
+
+WORKDIR /workspace
+
+RUN helm init -c
+RUN helm plugin install .
+RUN helm version -c
+
+FROM alpine/helm:3.2.4
+
+ADD . /workspace
+
+WORKDIR /workspace
+
+RUN helm plugin install .
+RUN helm version -c
+
+FROM ubuntu:focal
+
+ADD . /workspace
+
+WORKDIR /workspace
+
+# See "From Apt (Debian/Ubuntu)" at https://helm.sh/docs/intro/install/
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+RUN helm plugin install .
+RUN helm version -c
