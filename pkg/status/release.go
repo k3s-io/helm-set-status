@@ -3,7 +3,7 @@ package status
 import (
 	"fmt"
 
-	"helm.sh/helm/v3/pkg/release"
+	release "helm.sh/helm/v4/pkg/release/common"
 )
 
 func ReleaseStatus(s string) (release.Status, error) {

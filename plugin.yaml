@@ -1,6 +1,6 @@
 ---
 name: "set-status"
-version: "0.1.0"
+version: "0.4.0"
 usage: "helm set-status <RELEASE_NAME>"
 description: |-
   Manually set the status of a helm release

@@ -1,13 +1,11 @@
 package status
 
 import (
-	"fmt"
-	"log"
 	"os"
 
 	"github.com/k3s-io/helm-set-status/pkg/common"
-	"helm.sh/helm/v3/pkg/action"
-	"helm.sh/helm/v3/pkg/cli"
+	"helm.sh/helm/v4/pkg/action"
+	"helm.sh/helm/v4/pkg/cli"
 )
 
 const (
@@ -28,17 +26,10 @@ func GetActionConfig(namespace string, kubeConfig common.KubeConfig) (*action.Co
 		namespace = settings.Namespace()
 	}
 
-	err := actionConfig.Init(settings.RESTClientGetter(), namespace, os.Getenv("HELM_DRIVER"), debug)
+	err := actionConfig.Init(settings.RESTClientGetter(), namespace, os.Getenv("HELM_DRIVER"))
 	if err != nil {
 		return nil, err
 	}
 
 	return actionConfig, err
-}
-
-func debug(format string, v ...interface{}) {
-	if settings.Debug {
-		format = fmt.Sprintf("[debug] %s\n", format)
-		_ = log.Output(callDepth, fmt.Sprintf(format, v...))
-	}
 }
