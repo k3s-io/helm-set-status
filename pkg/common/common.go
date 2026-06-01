@@ -1,6 +1,8 @@
 package common
 
-import "helm.sh/helm/v3/pkg/release"
+import (
+	release "helm.sh/helm/v4/pkg/release/common"
+)
 
 type HelmOptions struct {
 	ReleaseName      string
