@@ -4,12 +4,9 @@ HELM_PLUGIN := $(shell helm env | sed -n -e 's/HELM_PLUGINS=[ "]*\([^"]*\).*/\1/
 HELM_PLUGIN_PATH ?= $(HELM_PLUGIN)/$(BINARY)
 
 VERSION := $(shell sed -n -e 's/version:[ "]*\([^"]*\).*/\1/p' plugin.yaml)
-LDFLAGS := "-X main.version=${VERSION} -extldflags -static -w -s"
-TAGS := "static_build netcgo osusergo"
+LDFLAGS := "-w -s"
+TAGS := "netgo osusergo"
 OS_PLATFORM := $(shell uname -sp | tr '[:upper:] ' '[:lower:]-' | sed 's/x86_64/amd64/')
-
-GO111MODULE = on
-CGO_ENABLED = 1
 
 .PHONY: install
 install: build
